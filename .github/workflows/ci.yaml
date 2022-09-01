@@ -6,7 +6,6 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    if: ${{ false }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -19,7 +18,6 @@ jobs:
 
   image:
     runs-on: ubuntu-latest
-    if: ${{ false }}
     steps:
       - uses: actions/checkout@v2
       - run: docker build -t shipmight:dev -f release/Dockerfile .
