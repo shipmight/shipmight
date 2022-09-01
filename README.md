@@ -1,4 +1,4 @@
-![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/images/header-image.png)
+![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/readme-header-image.png)
 
 [Home](https://shipmight.com)     [Docs](https://shipmight.com/docs)     [GitHub](https://github.com/shipmight)     [Twitter](https://twitter.com/shipmight)
 
