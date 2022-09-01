@@ -1,0 +1,151 @@
+# yaml-language-server: $schema=../../backend/api/apiSchema.json#/components/schemas/ShipmightYaml
+
+version: v1
+
+historyMax: 1
+
+terminology:
+  singular: job
+  plural: jobs
+  singularCapitalized: Job
+  pluralCapitalized: Jobs
+
+listCard:
+  nameFieldId: name
+  extraDetailFieldIds:
+    - imageName
+
+logTargets:
+  - id: jobLogs
+    name: Job logs
+
+serviceTargets: []
+
+metricsTargets: []
+
+tabs:
+  - id: run
+    name: Run
+    content:
+      type: JobReleaseManager
+  - id: logs
+    name: Logs
+    content:
+      type: LogViewer
+      logTargetId: jobLogs
+  - id: configuration
+    name: Configuration
+    content:
+      type: ConfigurationForm
+
+configurationCards:
+  - ["name"]
+  - ["imageRegistry", "imageName", "imageTag"]
+  - ["environmentVariables", "instanceEnvironmentVariablesPreset"]
+  - ["fileMounts"]
+  - ["memoryMb", "milliCpu"]
+  - ["activeDeadlineSeconds", "ttlSecondsAfterFinished"]
+
+releaseCards:
+  - ["instanceEnvironmentVariables"]
+
+fields:
+  - id: name
+    input:
+      type: SingleLineText
+      placeholder: My Amazing Job
+      defaultValue: ""
+    useForUuid: true
+    name: Name
+    help: |
+      Choose a descriptive name for this job.
+
+      Must be between 1-30 characters and consist of alphabets (A-Z a-z), numbers (0-9) and spaces ( ).
+
+  - id: imageRegistry
+    input:
+      type: RegistrySelect
+    name: Image registry
+    help: Job image will be pulled from this registry.
+
+  - id: imageName
+    input:
+      type: SingleLineText
+      placeholder: my-image-name
+      defaultValue: ""
+    name: Image name
+    help: Name of the image to pull.
+
+  - id: imageTag
+    input:
+      type: ImageTag
+      defaultValue: latest
+      registryUrlFromFieldId: imageRegistry
+      imageNameFromFieldId: imageName
+    name: Image tag
+    help: Image tag to deploy.
+
+  - id: environmentVariables
+    input:
+      type: EnvironmentVariables
+      defaultValue: []
+    name: Environment variables
+    help: Environment variables applied to all job executions.
+
+  - id: fileMounts
+    input:
+      type: FileMounts
+      defaultValue: []
+    name: File mounts
+    help: Mount files inside the job container.
+
+  - id: memoryMb
+    input:
+      type: Number
+      defaultValue: 128
+      presets: [128, 256, 512, 768, 1024, 2048]
+      rightLabel: Mb
+    name: Memory
+    help: Amount of memory.
+
+  - id: milliCpu
+    input:
+      type: Number
+      defaultValue: 100
+      presets: [100, 250, 500, 750, 1000, 2000, 4000]
+      rightLabel: mcpu
+    name: CPU
+    help: Amount of CPU.
+
+  - id: instanceEnvironmentVariablesPreset
+    input:
+      type: EnvironmentVariablesPreset
+      defaultValue: []
+    name: Default parameters
+    help: Set of environment variables which can be overridden for each job execution.
+
+  - id: instanceEnvironmentVariables
+    input:
+      type: EnvironmentVariables
+      fromPreset: instanceEnvironmentVariablesPreset
+    name: Parameters
+
+  - id: activeDeadlineSeconds
+    input:
+      type: Number
+      defaultValue: 900
+      rightLabel: sec
+      setToEmptyString: Don't timeout jobs
+      showSecondsInHumanFriendlyTime: true
+    name: Timeout
+    help: Amount of seconds after which a still running job should be killed and marked as failed.
+
+  - id: ttlSecondsAfterFinished
+    input:
+      type: Number
+      defaultValue: 1209600
+      rightLabel: sec
+      setToEmptyString: Don't auto-delete finished jobs
+      showSecondsInHumanFriendlyTime: true
+    name: Retention
+    help: Amount of seconds to retain a job after it has finished.

@@ -1,0 +1,34 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+          echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+      - run: |
+          docker build \
+            -t ghcr.io/shipmight/shipmight:${{ env.RELEASE_VERSION }} \
+            --build-arg SHIPMIGHT_VERSION=${{ env.RELEASE_VERSION }} \
+            --build-arg SHIPMIGHT_COMMIT=${{ env.SHORT_SHA }} \
+            -f release/Dockerfile .
+      - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USER }} --password-stdin
+      - run: docker push ghcr.io/shipmight/shipmight:${{ env.RELEASE_VERSION }}
+      - name: Trigger site deployment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.SHIPMIGHT_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: '${{ secrets.RELEASE_SITE_OWNER }}',
+              repo: '${{ secrets.RELEASE_SITE_REPO }}',
+              workflow_id: '${{ secrets.RELEASE_SITE_WORKFLOW_ID }}',
+              ref: '${{ secrets.RELEASE_SITE_REF }}'
+            })

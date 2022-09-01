@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=../../backend/api/apiSchema.json#/components/schemas/ShipmightYaml
+
+version: v1
+
+historyMax: 10
+
+terminology:
+  singular: application
+  plural: applications
+  singularCapitalized: Application
+  pluralCapitalized: Applications
+
+listCard:
+  nameFieldId: name
+  extraDetailFieldIds:
+    - imageName
+
+logTargets:
+  - id: applicationLogs
+    name: Application logs
+
+serviceTargets:
+  - id: applicationPod
+    name: Application pod
+
+metricsTargets:
+  - id: applicationPod
+    name: Application pod
+
+configurationCards:
+  - ["name"]
+  - ["imageRegistry", "imageName"]
+  - ["environmentVariables"]
+  - ["fileMounts"]
+  - ["replicas", "memoryMb", "milliCpu"]
+
+releaseCards:
+  - ["imageTag"]
+
+tabs:
+  - id: deploy
+    name: Deploy
+    content:
+      type: DeploymentReleaseManager
+  - id: logs
+    name: Logs
+    content:
+      type: LogViewer
+      logTargetId: applicationLogs
+  - id: configuration
+    name: Configuration
+    content:
+      type: ConfigurationForm
+
+fields:
+  - id: name
+    input:
+      type: SingleLineText
+      placeholder: My Amazing Application
+      defaultValue: ""
+    useForUuid: true
+    name: Name
+    help: |
+      Choose a descriptive name for this application.
+
+      Must be between 1-30 characters and consist of alphabets (A-Z a-z), numbers (0-9) and spaces ( ).
+
+  - id: imageRegistry
+    input:
+      type: RegistrySelect
+    name: Image registry
+    help: Application image will be pulled from this registry.
+
+  - id: imageName
+    input:
+      type: SingleLineText
+      placeholder: my-image-name
+      defaultValue: ""
+    name: Image name
+    help: Name of the image to pull. Tag will be selected later when making a deployment.
+
+  - id: environmentVariables
+    input:
+      type: EnvironmentVariables
+      defaultValue: []
+    name: Environment variables
+
+  - id: fileMounts
+    input:
+      type: FileMounts
+      defaultValue: []
+    name: File mounts
+    help: Mount files inside the application container.
+
+  - id: replicas
+    input:
+      type: Number
+      defaultValue: 1
+      presets: [1, 2, 3, 4, 5, 10]
+    name: Replicas
+    help: Amount of replicas.
+
+  - id: memoryMb
+    input:
+      type: Number
+      defaultValue: 128
+      presets: [128, 256, 512, 768, 1024, 2048]
+      rightLabel: Mb
+    name: Memory
+    help: Amount of memory per replica.
+
+  - id: milliCpu
+    input:
+      type: Number
+      defaultValue: 100
+      presets: [100, 250, 500, 750, 1000, 2000, 4000]
+      rightLabel: mcpu
+    name: CPU
+    help: Amount of CPU per replica.
+
+  - id: imageTag
+    input:
+      type: ImageTag
+      defaultValue: latest
+      registryUrlFromFieldId: imageRegistry
+      imageNameFromFieldId: imageName
+    name: Image tag
+    help: Image tag to deploy.

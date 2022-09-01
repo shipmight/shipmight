@@ -1,0 +1,5 @@
+dist
+
+# Prettier breaks bracket format in yaml files
+helm-charts/**/*.yaml
+src/internal-charts/**/*.yaml

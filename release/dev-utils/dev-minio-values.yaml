@@ -1,0 +1,20 @@
+# rootUser: dev-root-user
+# rootPassword: dev-root-password
+
+mode: standalone
+
+persistence:
+  enabled: false
+
+resources:
+  limits: { memory: "512Mi", cpu: "100m" }
+  requests: { memory: "75Mi", cpu: "10m" }
+
+users:
+  - accessKey: dev-access-key
+    secretKey: dev-secret-key
+    policy: consoleAdmin
+
+buckets:
+  - name: loki
+    policy: none

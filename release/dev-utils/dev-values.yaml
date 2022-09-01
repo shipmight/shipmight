@@ -1,0 +1,33 @@
+#
+# This values.yaml file is only for locally testing shipmight-stack in a local Minikube cluster
+#
+# You can further configure your local installation in this file based on what you need to test.
+#
+# E.g. disable readable UUIDs
+# api:
+#   readableUuids: false
+#
+
+shipmight:
+  image:
+    # image built directly via minikube container runtime, see CONTRIBUTING.md
+    registry: docker.io
+    repository: shipmight-dev
+    tag: latest
+    pullPolicy: Never
+
+  install:
+    force: true
+
+cert-manager:
+  enabled: true
+
+loki:
+  enabled: true
+  config:
+    storage_config:
+      aws:
+        s3: s3://dev-access-key:dev-secret-key@minio.minio.svc.cluster.local:9000/loki
+
+promtail:
+  enabled: true

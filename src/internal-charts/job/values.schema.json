@@ -1,0 +1,250 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "builtIns": {
+      "$ref": "#/definitions/shipmight:builtIns:builtIns"
+    },
+
+    "values": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "imageRegistry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "imageName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "imageTag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environmentVariables": {
+          "$ref": "#/definitions/shipmight:input:EnvironmentVariables"
+        },
+        "fileMounts": {
+          "$ref": "#/definitions/shipmight:input:FileMounts"
+        },
+        "memoryMb": {
+          "type": "number",
+          "minimum": 128,
+          "maximum": 1024000
+        },
+        "milliCpu": {
+          "type": "number",
+          "minimum": 100,
+          "maximum": 100000
+        },
+        "instanceEnvironmentVariablesPreset": {
+          "$ref": "#/definitions/shipmight:input:EnvironmentVariables"
+        },
+        "instanceEnvironmentVariables": {
+          "$ref": "#/definitions/shipmight:input:EnvironmentVariables"
+        },
+        "activeDeadlineSeconds": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 0
+            },
+            {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 1000000000
+            }
+          ]
+        },
+        "ttlSecondsAfterFinished": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 0
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "imageRegistry",
+        "imageName",
+        "imageTag",
+        "environmentVariables",
+        "fileMounts",
+        "memoryMb",
+        "milliCpu",
+        "instanceEnvironmentVariablesPreset",
+        "instanceEnvironmentVariables",
+        "activeDeadlineSeconds",
+        "ttlSecondsAfterFinished"
+      ]
+    },
+
+    "resolvedValues": {
+      "type": "object",
+      "properties": {
+        "imageRegistry": {
+          "$ref": "#/definitions/shipmight:resolvedValue:ImageRegistry"
+        },
+        "fileMounts": {
+          "$ref": "#/definitions/shipmight:resolvedValue:FileMounts"
+        }
+      },
+      "required": ["imageRegistry", "fileMounts"]
+    }
+  },
+  "required": ["builtIns", "values", "resolvedValues"],
+
+  "definitions": {
+    "shipmight:builtIns:builtIns": {
+      "properties": {
+        "appId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "releaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "historyMax": {
+          "type": "number"
+        },
+        "labels": {
+          "type": "object",
+          "properties": {
+            "releaseId": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "appId": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "logTargets": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              }
+            },
+            "serviceTargets": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              }
+            },
+            "metricsTargets": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              }
+            }
+          },
+          "required": [
+            "releaseId",
+            "appId",
+            "logTargets",
+            "serviceTargets",
+            "metricsTargets"
+          ]
+        }
+      },
+      "required": ["appId", "releaseId", "historyMax", "labels"]
+    },
+
+    "shipmight:input:EnvironmentVariables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Z][A-Z0-9_]*$"
+          },
+          "value": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": ["name", "value"]
+      }
+    },
+
+    "shipmight:input:FileMounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mountPath": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^/"
+          }
+        },
+        "required": ["fileId", "mountPath"]
+      }
+    },
+
+    "shipmight:resolvedValue:ImageRegistry": {
+      "type": "object",
+      "properties": {
+        "registryUrl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "imagePullSecretName": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["registryUrl"]
+    },
+
+    "shipmight:resolvedValue:FileMounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fileMountId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "secretId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "secretKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mountPath": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^/"
+          }
+        },
+        "required": ["fileMountId", "secretId", "secretKey", "mountPath"]
+      }
+    }
+  }
+}

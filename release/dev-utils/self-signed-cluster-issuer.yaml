@@ -1,0 +1,11 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: self-signed
+  labels:
+    cert-manager-issuer.shipmight.com/id: self-signed
+  annotations:
+    cert-manager-issuer.shipmight.com/name: "Self Signed"
+spec:
+  selfSigned: {}

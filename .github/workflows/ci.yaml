@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  - push
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    if: ${{ false }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - run: yarn
+      - run: yarn lint
+      - run: yarn typecheck
+      - run: yarn test
+
+  image:
+    runs-on: ubuntu-latest
+    if: ${{ false }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -t shipmight:dev -f release/Dockerfile .

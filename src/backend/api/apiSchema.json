@@ -1,0 +1,3235 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "",
+    "version": "0.1.0-internal",
+    "description": "This API is not guaranteed to be stable!"
+  },
+  "components": {
+    "schemas": {
+      "GenericNameValue": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30,
+        "pattern": "^(?! ).*(?<! )$"
+      },
+      "ImageNameValue": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30,
+        "pattern": "^(?=[a-z0-9])[a-z0-9\\-/]*[a-z0-9]$"
+      },
+      "ImageTagValue": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30,
+        "pattern": "^(?=[a-z0-9])[a-z0-9\\-/.]*[a-z0-9]$"
+      },
+      "UsernameValue": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30,
+        "pattern": "^(?=[a-z])[a-z0-9\\-]*[a-z0-9]$"
+      },
+      "ShipmightYamlTargetIdValue": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 16,
+        "pattern": "^[A-Za-z]+$"
+      },
+      "DateTimeValue": {
+        "type": "string"
+      },
+      "AuthTokenValue": {
+        "type": "string",
+        "maxLength": 1000
+      },
+
+      "RegistryId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "RegistryName": {
+        "$ref": "#/components/schemas/GenericNameValue"
+      },
+      "RegistryUrl": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "RegistryAuthMethod": {
+        "type": "string",
+        "enum": ["NONE", "TOKEN"]
+      },
+      "Registry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/RegistryId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/RegistryName"
+          },
+          "url": {
+            "$ref": "#/components/schemas/RegistryUrl"
+          },
+          "authMethod": {
+            "$ref": "#/components/schemas/RegistryAuthMethod"
+          }
+        },
+        "required": ["id", "name", "url", "authMethod"]
+      },
+
+      "SingleLineTextInput": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["SingleLineText"] },
+          "defaultValue": { "type": "string" },
+          "placeholder": { "type": "string" }
+        },
+        "required": ["type"]
+      },
+      "RegistrySelectInput": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["RegistrySelect"] }
+        },
+        "required": ["type"]
+      },
+      "EnvironmentVariablesInput": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["EnvironmentVariables"] },
+          "defaultValue": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "type": "string" }
+              },
+              "required": ["name", "value"]
+            }
+          },
+          "fromPreset": { "type": "string" }
+        },
+        "required": ["type"]
+      },
+      "EnvironmentVariablesPresetInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["EnvironmentVariablesPreset"]
+          },
+          "defaultValue": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "type": "string" },
+                "options": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              },
+              "required": ["name", "value", "options"]
+            }
+          }
+        },
+        "required": ["type"]
+      },
+      "FileMountsInput": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["FileMounts"] },
+          "defaultValue": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "fileId": { "type": "string" },
+                "mountPath": { "type": "string" }
+              },
+              "required": ["fileId", "mountPath"]
+            }
+          }
+        },
+        "required": ["type"]
+      },
+      "NumberInput": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["Number"] },
+          "defaultValue": { "type": "number" },
+          "rightLabel": { "type": "string" },
+          "presets": {
+            "type": "array",
+            "items": { "type": "number" }
+          },
+          "setToEmptyString": { "type": "string" },
+          "showSecondsInHumanFriendlyTime": { "type": "boolean" }
+        },
+        "required": ["type"]
+      },
+      "ImageTagInput": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["ImageTag"] },
+          "defaultValue": { "type": "string" },
+          "registryUrlFromFieldId": { "type": "string" },
+          "imageNameFromFieldId": { "type": "string" }
+        },
+        "required": ["type"]
+      },
+
+      "DeploymentReleaseManagerTabSpec": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["DeploymentReleaseManager"] }
+        },
+        "required": ["type"]
+      },
+
+      "ConfigurationFormTabSpec": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["ConfigurationForm"] }
+        },
+        "required": ["type"]
+      },
+
+      "LogViewerTabSpec": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["LogViewer"] },
+          "logTargetId": { "type": "string" }
+        },
+        "required": ["type", "logTargetId"]
+      },
+
+      "JobReleaseManagerTabSpec": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["JobReleaseManager"] }
+        },
+        "required": ["type"]
+      },
+
+      "ShipmightYaml": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "enum": ["v1"]
+          },
+          "uuidFromFieldId": {
+            "type": "string"
+          },
+          "historyMax": {
+            "type": "number"
+          },
+          "terminology": {
+            "type": "object",
+            "properties": {
+              "singular": { "type": "string" },
+              "plural": { "type": "string" },
+              "singularCapitalized": { "type": "string" },
+              "pluralCapitalized": { "type": "string" }
+            },
+            "required": [
+              "singular",
+              "plural",
+              "singularCapitalized",
+              "pluralCapitalized"
+            ]
+          },
+          "tabs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "isDefault": { "type": "boolean" },
+                "content": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/DeploymentReleaseManagerTabSpec"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ConfigurationFormTabSpec"
+                    },
+                    { "$ref": "#/components/schemas/LogViewerTabSpec" },
+                    { "$ref": "#/components/schemas/JobReleaseManagerTabSpec" }
+                  ]
+                }
+              },
+              "required": ["id", "name", "content"]
+            }
+          },
+          "logTargets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/ShipmightYamlTargetIdValue"
+                },
+                "name": { "type": "string" }
+              },
+              "required": ["id", "name"]
+            }
+          },
+          "serviceTargets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/ShipmightYamlTargetIdValue"
+                },
+                "name": { "type": "string" }
+              },
+              "required": ["id", "name"]
+            }
+          },
+          "metricsTargets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/ShipmightYamlTargetIdValue"
+                },
+                "name": { "type": "string" }
+              },
+              "required": ["id", "name"]
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "immutable": { "type": "boolean" },
+                "useForUuid": { "type": "boolean" },
+                "name": { "type": "string" },
+                "help": { "type": "string" },
+                "input": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SingleLineTextInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RegistrySelectInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EnvironmentVariablesInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EnvironmentVariablesPresetInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FileMountsInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/NumberInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ImageTagInput"
+                    }
+                  ]
+                }
+              },
+              "required": ["id", "name", "input"]
+            }
+          },
+          "configurationCards": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "releaseCards": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "listCard": {
+            "type": "object",
+            "properties": {
+              "nameFieldId": {
+                "type": "string"
+              },
+              "extraDetailFieldIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["nameFieldId"]
+          }
+        },
+        "required": [
+          "version",
+          "historyMax",
+          "terminology",
+          "tabs",
+          "logTargets",
+          "serviceTargets",
+          "fields",
+          "configurationCards",
+          "releaseCards",
+          "listCard"
+        ]
+      },
+
+      "JsonSchemaDraft7": {
+        "type": "object",
+        "description": "An object complying to http://json-schema.org/draft-07/schema"
+      },
+
+      "InternalHelmChart": {
+        "type": "object",
+        "properties": {
+          "internalChartName": { "type": "string" }
+        },
+        "required": ["internalChartName"]
+      },
+
+      "InstalledHelmChart": {
+        "type": "object",
+        "properties": {
+          "installedChartName": { "type": "string" }
+        },
+        "required": ["installedChartName"]
+      },
+
+      "HelmChart": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/InternalHelmChart" },
+          { "$ref": "#/components/schemas/InstalledHelmChart" }
+        ]
+      },
+
+      "AppChart": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "chart": {
+            "$ref": "#/components/schemas/HelmChart"
+          },
+          "spec": {
+            "$ref": "#/components/schemas/ShipmightYaml"
+          },
+          "schema": {
+            "$ref": "#/components/schemas/JsonSchemaDraft7"
+          }
+        },
+        "required": ["id", "chart", "spec", "schema"]
+      },
+
+      "UserId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "UserUsername": {
+        "$ref": "#/components/schemas/UsernameValue"
+      },
+      "UserPassword": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 48
+      },
+      "UserMustChangePassword": {
+        "type": "boolean"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/UserId"
+          },
+          "username": {
+            "$ref": "#/components/schemas/UserUsername"
+          },
+          "password": {
+            "$ref": "#/components/schemas/UserPassword"
+          },
+          "mustChangePassword": {
+            "$ref": "#/components/schemas/UserMustChangePassword"
+          }
+        },
+        "required": ["id", "username", "mustChangePassword"]
+      },
+
+      "ProjectId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "ProjectName": {
+        "$ref": "#/components/schemas/GenericNameValue"
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/ProjectName"
+          }
+        },
+        "required": ["id", "name"]
+      },
+
+      "AppId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "AppProjectId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "AppAppChartId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "AppName": {
+        "$ref": "#/components/schemas/GenericNameValue"
+      },
+      "App": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/AppId"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/AppProjectId"
+          },
+          "appChartId": {
+            "$ref": "#/components/schemas/AppAppChartId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/AppName"
+          },
+          "values": {
+            "type": "object"
+          }
+        },
+        "required": ["id", "projectId", "appChartId", "name", "values"]
+      },
+
+      "DeploymentReleaseId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DeploymentCreatedAt": {
+        "type": "string"
+      },
+      "DeploymentReplicas": {
+        "type": "number"
+      },
+      "DeploymentReadyReplicas": {
+        "type": "number"
+      },
+      "DeploymentPodStatuses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["PENDING", "ERRORED", "RUNNING", "UNKNOWN"]
+            },
+            "message": { "type": "string" }
+          },
+          "required": ["status"]
+        }
+      },
+      "Deployment": {
+        "type": "object",
+        "properties": {
+          "releaseId": {
+            "$ref": "#/components/schemas/DeploymentReleaseId"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DeploymentCreatedAt"
+          },
+          "replicas": {
+            "$ref": "#/components/schemas/DeploymentReplicas"
+          },
+          "readyReplicas": {
+            "$ref": "#/components/schemas/DeploymentReadyReplicas"
+          },
+          "podStatuses": {
+            "$ref": "#/components/schemas/DeploymentPodStatuses"
+          }
+        },
+        "required": [
+          "releaseId",
+          "createdAt",
+          "replicas",
+          "readyReplicas",
+          "podStatuses"
+        ]
+      },
+
+      "RunReleaseId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "RunJobStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["FAILED", "RUNNING", "SUCCEEDED", "UNKNOWN"]
+          },
+          "message": { "type": "string" }
+        },
+        "required": ["status"]
+      },
+      "RunCreatedAt": {
+        "type": "string"
+      },
+      "Run": {
+        "type": "object",
+        "properties": {
+          "releaseId": {
+            "$ref": "#/components/schemas/RunReleaseId"
+          },
+          "jobStatus": {
+            "$ref": "#/components/schemas/RunJobStatus"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/RunCreatedAt"
+          }
+        },
+        "required": ["releaseId", "jobStatus", "createdAt"]
+      },
+
+      "ReleaseId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "ReleaseProjectId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "ReleaseAppId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "ReleaseCreatedAt": {
+        "type": "string"
+      },
+      "Release": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ReleaseId"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/ReleaseProjectId"
+          },
+          "appId": {
+            "$ref": "#/components/schemas/ReleaseAppId"
+          },
+          "values": {
+            "type": "object"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/ReleaseCreatedAt"
+          }
+        },
+        "required": ["id", "projectId", "appId", "values", "createdAt"]
+      },
+
+      "DeployHookId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DeployHookProjectId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DeployHookAppId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DeployHookName": {
+        "$ref": "#/components/schemas/GenericNameValue"
+      },
+      "DeployHookToken": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DeployHookLastUsedAt": {
+        "type": "string"
+      },
+      "DeployHookCreatedAt": {
+        "type": "string"
+      },
+      "DeployHook": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/DeployHookId"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/DeployHookProjectId"
+          },
+          "appId": {
+            "$ref": "#/components/schemas/DeployHookAppId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/DeployHookName"
+          },
+          "token": {
+            "$ref": "#/components/schemas/DeployHookToken"
+          },
+          "lastUsedAt": {
+            "$ref": "#/components/schemas/DeployHookLastUsedAt"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DeployHookCreatedAt"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "appId",
+          "name",
+          "lastUsedAt",
+          "createdAt"
+        ]
+      },
+
+      "MasterDomainHostname": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "MasterDomainCertManagerClusterIssuer": {
+        "type": "string",
+        "minLength": 1,
+        "nullable": true
+      },
+      "MasterDomainTlsCertificateStatus": {
+        "type": "string",
+        "enum": ["NONE", "UPDATING", "READY"]
+      },
+      "MasterDomain": {
+        "type": "object",
+        "properties": {
+          "hostname": {
+            "$ref": "#/components/schemas/MasterDomainHostname"
+          },
+          "certManagerClusterIssuer": {
+            "$ref": "#/components/schemas/MasterDomainCertManagerClusterIssuer"
+          },
+          "tlsCertificateStatus": {
+            "$ref": "#/components/schemas/MasterDomainTlsCertificateStatus"
+          }
+        },
+        "required": ["hostname", "tlsCertificateStatus"]
+      },
+
+      "DomainId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DomainProjectId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "DomainPath": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "DomainHostname": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "DomainAppId": {
+        "type": "string",
+        "nullable": true
+      },
+      "DomainAppServiceTargetId": {
+        "type": "string",
+        "nullable": true
+      },
+      "DomainTargetPort": {
+        "type": "number",
+        "maximum": 99999
+      },
+      "Domain": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/DomainId"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/DomainProjectId"
+          },
+          "hostname": {
+            "$ref": "#/components/schemas/DomainHostname"
+          },
+          "path": {
+            "$ref": "#/components/schemas/DomainPath"
+          },
+          "appId": {
+            "$ref": "#/components/schemas/DomainAppId"
+          },
+          "appServiceTargetId": {
+            "$ref": "#/components/schemas/DomainAppServiceTargetId"
+          },
+          "targetPort": {
+            "$ref": "#/components/schemas/DomainTargetPort"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "hostname",
+          "path",
+          "appId",
+          "appServiceTargetId",
+          "targetPort"
+        ]
+      },
+
+      "FileId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "FileProjectId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "FileName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30
+      },
+      "FileIsSecret": {
+        "type": "boolean"
+      },
+      "FileContent": {
+        "type": "string",
+        "maxLength": 1000
+      },
+      "FileRevision": {
+        "type": "number"
+      },
+      "File": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/FileId"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/FileProjectId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/FileName"
+          },
+          "isSecret": {
+            "$ref": "#/components/schemas/FileIsSecret"
+          },
+          "content": {
+            "$ref": "#/components/schemas/FileContent"
+          },
+          "revision": {
+            "$ref": "#/components/schemas/FileRevision"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "projectId",
+          "isSecret",
+          "content",
+          "revision"
+        ]
+      }
+    },
+    "parameters": {
+      "GetLogsParamSources": {
+        "name": "sources",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "GetLogsParamStartTime": {
+        "name": "startTime",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "GetLogsParamEndTime": {
+        "name": "endTime",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "GetLogsParamLimit": {
+        "name": "limit",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "GetLogsParamFormat": {
+        "name": "format",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["json", "csv-download", "ndjson-download"]
+        }
+      }
+    },
+    "responses": {
+      "LogSourcesResponse": {
+        "description": "LogSourcesResponse",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" }
+                },
+                "required": ["id", "name"]
+              }
+            }
+          }
+        }
+      },
+      "LogDataResponse": {
+        "description": "LogDataResponse",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "text/csv": {
+            "schema": {
+              "type": "string"
+            }
+          },
+          "application/x-ndjson": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+
+      "ValidationError": {
+        "description": "ValidationError",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["path", "message"]
+                      }
+                    }
+                  },
+                  "required": ["name", "message", "errors"]
+                },
+                "requestId": {
+                  "type": "string"
+                }
+              },
+              "required": ["error", "requestId"]
+            }
+          }
+        }
+      },
+      "AuthorizationError": {
+        "description": "AuthorizationError",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["name", "message"]
+                },
+                "requestId": {
+                  "type": "string"
+                }
+              },
+              "required": ["error", "requestId"]
+            }
+          }
+        }
+      },
+      "NotFoundError": {
+        "description": "NotFoundError",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["name", "message"]
+                },
+                "requestId": {
+                  "type": "string"
+                }
+              },
+              "required": ["error", "requestId"]
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "ServerError",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["name", "message"]
+                },
+                "requestId": {
+                  "type": "string"
+                }
+              },
+              "required": ["error", "requestId"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/v1/readyz": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Not ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "unhealthy": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  },
+                  "required": ["unhealthy"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/v1/tokens": {
+      "post": {
+        "parameters": [
+          {
+            "name": "cookie",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["write"]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jwt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["jwt"]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/tokens/refresh": {
+      "post": {
+        "parameters": [
+          {
+            "name": "cookie",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["write"]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jwt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["jwt"]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/tokens/clear": {
+      "post": {
+        "parameters": [
+          {
+            "name": "cookie",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["write"]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cleared",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/version": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": { "type": "string" },
+                    "commit": { "type": "string" }
+                  },
+                  "required": ["version", "commit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/me": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" }
+                  },
+                  "required": ["username"]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/me/password": {
+      "post": {
+        "parameters": [
+          {
+            "name": "cookie",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["write"]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": ["password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/master-domains": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MasterDomain"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/master-domains/{masterDomainHostname}": {
+      "parameters": [
+        {
+          "name": "masterDomainHostname",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/master-domains-in-projects": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Project"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/upgrade-lock": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/self-update": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isEnabled": { "type": "boolean" },
+                    "availableUpdateVersion": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": ["isEnabled", "availableUpdateVersion"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "version": { "type": "string" }
+                },
+                "required": ["version"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scheduled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/registries": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Registry"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/RegistryName"
+                  },
+                  "url": {
+                    "$ref": "#/components/schemas/RegistryUrl"
+                  },
+                  "authToken": {
+                    "$ref": "#/components/schemas/AuthTokenValue"
+                  }
+                },
+                "required": ["name", "url", "authToken"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registry"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/registries/{registryId}": {
+      "parameters": [
+        {
+          "name": "registryId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/RegistryName"
+                  },
+                  "url": {
+                    "$ref": "#/components/schemas/RegistryUrl"
+                  },
+                  "authToken": {
+                    "$ref": "#/components/schemas/AuthTokenValue"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registry"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/registries-in-apps": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/App"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "$ref": "#/components/schemas/UserUsername"
+                  }
+                },
+                "required": ["username"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/users/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/services": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "loki": {
+                      "type": "object",
+                      "properties": {
+                        "isEnabled": { "type": "boolean" }
+                      },
+                      "required": ["isEnabled"]
+                    }
+                  },
+                  "required": ["loki"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/app-charts": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppChart"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/apps": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "appChartId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/App"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/App/properties/values"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "$ref": "#/components/schemas/AppName"
+                      }
+                    },
+                    "required": ["name"]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/domains": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Domain"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hostname": {
+                    "$ref": "#/components/schemas/DomainHostname"
+                  },
+                  "path": {
+                    "$ref": "#/components/schemas/DomainPath"
+                  },
+                  "appId": {
+                    "$ref": "#/components/schemas/DomainAppId"
+                  },
+                  "appServiceTargetId": {
+                    "$ref": "#/components/schemas/DomainAppServiceTargetId"
+                  },
+                  "targetPort": {
+                    "$ref": "#/components/schemas/DomainTargetPort"
+                  }
+                },
+                "required": [
+                  "hostname",
+                  "path",
+                  "appId",
+                  "appServiceTargetId",
+                  "targetPort"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/files": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/File"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/FileName"
+                  },
+                  "isSecret": {
+                    "$ref": "#/components/schemas/FileIsSecret"
+                  },
+                  "content": {
+                    "$ref": "#/components/schemas/FileContent"
+                  }
+                },
+                "required": ["name", "isSecret", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/File"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/files/linked-apps": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/App"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/metrics": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "app": {
+                        "type": "object",
+                        "properties": {
+                          "name": { "type": "string" }
+                        }
+                      },
+                      "pods": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "containerAmount": { "type": "number" },
+                            "memoryUsageMb": { "type": "string" },
+                            "memoryLimitMb": { "type": "string" },
+                            "cpuUsage": { "type": "string" },
+                            "cpuLimit": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "description": "Metrics Server is unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/logs": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        { "$ref": "#/components/parameters/GetLogsParamSources" },
+        { "$ref": "#/components/parameters/GetLogsParamStartTime" },
+        { "$ref": "#/components/parameters/GetLogsParamEndTime" },
+        { "$ref": "#/components/parameters/GetLogsParamLimit" },
+        { "$ref": "#/components/parameters/GetLogsParamFormat" }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/LogDataResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/projects/{projectId}/logs/sources": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/LogSourcesResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/domains/{domainId}": {
+      "parameters": [
+        {
+          "name": "domainId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "$ref": "#/components/schemas/DomainPath"
+                  },
+                  "appId": {
+                    "$ref": "#/components/schemas/DomainAppId"
+                  },
+                  "appServiceTargetId": {
+                    "$ref": "#/components/schemas/DomainAppServiceTargetId"
+                  },
+                  "targetPort": {
+                    "$ref": "#/components/schemas/DomainTargetPort"
+                  }
+                },
+                "required": [
+                  "path",
+                  "appId",
+                  "appServiceTargetId",
+                  "targetPort"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/files/{fileId}": {
+      "parameters": [
+        {
+          "name": "fileId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/File"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/FileName"
+                  },
+                  "isSecret": {
+                    "$ref": "#/components/schemas/FileIsSecret"
+                  },
+                  "content": {
+                    "$ref": "#/components/schemas/FileContent"
+                  }
+                },
+                "required": ["name", "isSecret", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/File"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/App/properties/values"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "$ref": "#/components/schemas/AppName"
+                      }
+                    },
+                    "required": ["name"]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/deployments": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deployment"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/releases": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Release"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Release/properties/values"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/runs": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Run"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/runs/{runReleaseId}": {
+      "parameters": [
+        {
+          "name": "runReleaseId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/deploy-hooks": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeployHook"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/DeployHookName"
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeployHook"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/domains": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Domain"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Domain"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/apps/{appId}/logs": {
+      "parameters": [
+        {
+          "name": "appId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "logTargetId",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/deploy-hooks/{deployHookId}": {
+      "parameters": [
+        {
+          "name": "deployHookId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/system-logs/{category}": {
+      "parameters": [
+        {
+          "name": "category",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": ["shipmight", "kube-system"]
+          }
+        },
+        { "$ref": "#/components/parameters/GetLogsParamSources" },
+        { "$ref": "#/components/parameters/GetLogsParamStartTime" },
+        { "$ref": "#/components/parameters/GetLogsParamEndTime" },
+        { "$ref": "#/components/parameters/GetLogsParamLimit" },
+        { "$ref": "#/components/parameters/GetLogsParamFormat" }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/LogDataResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/system-logs/{category}/sources": {
+      "parameters": [
+        {
+          "name": "category",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": ["shipmight", "kube-system"]
+          }
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/LogSourcesResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+
+    "/v1/dh": {
+      "parameters": [
+        {
+          "name": "x-deploy-hook-token",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Release/properties/values"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace | quote }}
+  name: {{ .Values.builtIns.appId | quote }}
+  labels:
+    {{- .Values.builtIns.labels.appId | toYaml | nindent 4 }}
+    {{- .Values.builtIns.labels.releaseId | toYaml | nindent 4 }}
+spec:
+  revisionHistoryLimit: {{ .Values.builtIns.historyMax }} # keep same amount of ReplicaSets as there are Helm releases
+  replicas: {{ .Values.values.replicas }}
+  selector:
+    matchLabels:
+      {{- .Values.builtIns.labels.appId | toYaml | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- .Values.builtIns.labels.appId | toYaml | nindent 8 }}
+        {{- .Values.builtIns.labels.releaseId | toYaml | nindent 8 }}
+        {{- .Values.builtIns.labels.logTargets.applicationLogs | toYaml | nindent 8 }}
+        {{- .Values.builtIns.labels.serviceTargets.applicationPod | toYaml | nindent 8 }}
+        {{- .Values.builtIns.labels.metricsTargets.applicationPod | toYaml | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: {{ .Values.builtIns.appId | quote }}
+          image: {{ printf "%s/%s:%s" .Values.resolvedValues.imageRegistry.registryUrl .Values.values.imageName .Values.values.imageTag | quote }}
+          resources:
+            limits:
+              memory: {{ printf "%dMi" (int .Values.values.memoryMb) | quote }}
+              cpu: {{ printf "%dm" (int .Values.values.milliCpu) | quote }}
+            requests:
+              memory: {{ printf "%dMi" (int .Values.values.memoryMb) | quote }}
+              cpu: {{ printf "%dm" (int .Values.values.milliCpu) | quote }}
+          {{- if not (empty .Values.values.environmentVariables) }}
+          env:
+            {{- range $environmentVariable := .Values.values.environmentVariables }}
+            - name: {{ $environmentVariable.name | quote }}
+              value: {{ $environmentVariable.value | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if not (empty .Values.resolvedValues.fileMounts) }}
+          volumeMounts:
+            {{- range $fileMount := .Values.resolvedValues.fileMounts }}
+            - name: {{ $fileMount.fileMountId | quote }}
+              mountPath: {{ $fileMount.mountPath | quote }}
+              subPath: {{ $fileMount.secretKey | quote }}
+              readOnly: true
+            {{- end }}
+          {{- end }}
+      {{- if not (empty .Values.resolvedValues.fileMounts) }}
+      volumes:
+        {{- range $fileMount := .Values.resolvedValues.fileMounts }}
+        - name: {{ $fileMount.fileMountId | quote }}
+          secret:
+            secretName: {{ $fileMount.secretId | quote }}
+            items:
+              - key: {{ $fileMount.secretKey | quote }}
+                path: {{ $fileMount.secretKey | quote }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.resolvedValues.imageRegistry.imagePullSecretName }}
+      imagePullSecrets:
+        - name: {{ .Values.resolvedValues.imageRegistry.imagePullSecretName | quote }}
+      {{- end }}

@@ -1,0 +1,146 @@
+/*
+  Shipmight CodeMirror theme
+    Name:       shipmight
+    Author:     Martti Laine
+
+  Adapted from:
+    Name:       material
+    Author:     Mattia Astorino (http://github.com/equinusocio)
+    Website:    https://material-theme.site/
+*/
+
+.cm-s-shipmight.CodeMirror {
+  background-color: #1f2937;
+  color: #f9fafb;
+  border-radius: 2px;
+  font-family: var(--font-family-monospace);
+  font-size: 12px;
+}
+
+.cm-s-shipmight .CodeMirror-gutters {
+  background: #1f2937;
+  color: #9ca3af;
+  border: none;
+}
+
+.cm-s-shipmight .CodeMirror-guttermarker,
+.cm-s-shipmight .CodeMirror-guttermarker-subtle,
+.cm-s-shipmight .CodeMirror-linenumber {
+  color: #9ca3af;
+}
+
+.cm-s-shipmight .CodeMirror-cursor {
+  border-left: 1px solid #fbbf24;
+}
+
+.cm-s-shipmight div.CodeMirror-selected {
+  background: rgba(97, 97, 97, 0.2);
+}
+
+.cm-s-shipmight.CodeMirror-focused div.CodeMirror-selected {
+  background: rgba(97, 97, 97, 0.2);
+}
+
+.cm-s-shipmight .CodeMirror-line::selection,
+.cm-s-shipmight .CodeMirror-line > span::selection,
+.cm-s-shipmight .CodeMirror-line > span > span::selection {
+  background: rgba(128, 203, 196, 0.2);
+}
+
+.cm-s-shipmight .CodeMirror-line::-moz-selection,
+.cm-s-shipmight .CodeMirror-line > span::-moz-selection,
+.cm-s-shipmight .CodeMirror-line > span > span::-moz-selection {
+  background: rgba(128, 203, 196, 0.2);
+}
+
+.cm-s-shipmight .CodeMirror-activeline-background {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cm-s-shipmight .cm-keyword {
+  color: #f472b6;
+}
+
+.cm-s-shipmight .cm-operator {
+  color: #93c5fd;
+}
+
+.cm-s-shipmight .cm-variable-2 {
+  color: #f9fafb;
+}
+
+.cm-s-shipmight .cm-variable-3,
+.cm-s-shipmight .cm-type {
+  color: #fca5a5;
+}
+
+.cm-s-shipmight .cm-builtin {
+  color: #fcd34d;
+}
+
+.cm-s-shipmight .cm-atom {
+  color: #fcd34d;
+}
+
+.cm-s-shipmight .cm-number {
+  color: #ef4444;
+}
+
+.cm-s-shipmight .cm-def {
+  color: #93c5fd;
+}
+
+.cm-s-shipmight .cm-string {
+  color: #a7f3d0;
+}
+
+.cm-s-shipmight .cm-string-2 {
+  color: #fca5a5;
+}
+
+.cm-s-shipmight .cm-comment {
+  color: #9ca3af;
+}
+
+.cm-s-shipmight .cm-variable {
+  color: #fca5a5;
+}
+
+.cm-s-shipmight .cm-tag {
+  color: #ef4444;
+}
+
+.cm-s-shipmight .cm-meta {
+  color: #fcd34d;
+}
+
+.cm-s-shipmight .cm-attribute {
+  color: #f472b6;
+}
+
+.cm-s-shipmight .cm-property {
+  color: #f472b6;
+}
+
+.cm-s-shipmight .cm-qualifier {
+  color: #fef3c7;
+}
+
+.cm-s-shipmight .cm-variable-3,
+.cm-s-shipmight .cm-type {
+  color: #fef3c7;
+}
+
+.cm-s-shipmight .cm-error {
+  color: rgba(255, 255, 255, 1);
+  background-color: #ef4444;
+}
+
+.cm-s-shipmight .CodeMirror-matchingbracket {
+  text-decoration: underline;
+  color: white !important;
+}
+
+.cm-s-shipmight .CodeMirror-line-like.CodeMirror-placeholder {
+  color: #9ca3af;
+}
