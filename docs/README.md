@@ -38,15 +38,16 @@
 
 ## Feature Guides
 
-- [Projects](Projects.md)
 - [Applications](Applications.md)
 - [Domains and SSL](Domains-and-SSL.md)
+- [Environment variables](Environment-variables.md)
+- [Files](Files.md)
+- [Projects](Projects.md)
+- [Jobs](Jobs.md)
 - [Logs](Logs.md)
 - [Metrics](Metrics.md)
-- [Files](Files.md)
-- [Environment variables](Environment-variables.md)
-- [Scaling](Scaling.md)
 - [Registries](Registries.md)
+- [Scaling](Scaling.md)
 - [Users](Users.md)
 
 ## API

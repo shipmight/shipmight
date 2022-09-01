@@ -66,6 +66,8 @@ After selecting **Deploy**, a new deployment will appear in the list below:
 
 ![Screenshot of deployment loading](images/applications.release-loading.png)
 
+The list shows up to 10 last deployments.
+
 You can follow the container and pod statuses in real-time. When the deployment is ready, it should look something like this:
 
 ![Screenshot of deployment ready](images/applications.release-ready.png)
