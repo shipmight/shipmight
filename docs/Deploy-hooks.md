@@ -42,7 +42,7 @@ jobs:
 
 ## Creating deploy hooks
 
-You can find deploy hooks under your app settings:
+You can find deploy hooks under your application or job settings:
 
 ![Screenshot of creating a deploy hook](images/deploy-hooks.list.png)
 
