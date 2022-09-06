@@ -2,14 +2,19 @@
 
 ## Unreleased
 
+-
+
+## 0.5.0 - 2022-09-06
+
 ### Breaking changes
 
-- General: Due to significant refactoring, this update is not backwards-compatible with previous versions
+- License: Shipmight is now released under GNU AGPLv3
+- General: Due to significant refactoring, this update is NOT backwards-compatible with previous versions
 - Kubernetes version: This version removes support for Kubernetes 1.21 and 1.22
 
 ### Added
 
-- Jobs: Support for deploying jobs
+- Jobs: Support for deploying jobs (new app type)
 
 ## Fixed
 
