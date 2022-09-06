@@ -16,7 +16,7 @@
 
 - Jobs: Support for deploying jobs (new app type)
 
-## Fixed
+### Fixed
 
 - Logs-tab: Clearer loading-state, simple error-state, clearer text when there are no recent logs
 - Logs-page: Clearer text when there are no recent logs in Live-mode
