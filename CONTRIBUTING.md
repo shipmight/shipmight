@@ -1,5 +1,9 @@
 # Contributing
 
+## Bug reports
+
+Bug reports are highly appreciated! Please submit yours in this repository as a new issue (search first to see if someone has already submitted a similar report).
+
 ## Feature requests
 
 Feature requests are highly appreciated! Please submit yours in this repository as a new issue (search first to see if someone has already submitted a similar request).
