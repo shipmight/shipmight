@@ -12,7 +12,8 @@
 - **Integrate with the ecosystem.** Grafana Loki for log collection. Ingress-NGINX for ingress management. Cert-Manager for SSL issuance.
 - **Scale with your cluster.** No stateful database, Shipmight uses the in-cluster etcd as its data store.
 - **Update with a button.** Shipmight updates itself.
-- **And more.** See Docs.
+
+And more. See [Docs](https://shipmight.com/docs) for details and screenshots.
 
 ## Getting started
 
@@ -76,7 +77,7 @@ If the question is from the perspective of an user who is deploying apps in Ship
 
 You should feel comfortable maintaining a Kubernetes cluster in the long term.
 
-(Btw, if you are a solo developer or an early stage startup: you are looking in the wrong place. Don't self-host anything! Use managed services and focus on developing your own product/service. Speaking from experience.)
+(Btw, if you are a solo developer or an early stage startup: you are looking in the wrong place. Don't self-host anything! Use managed services for everything and focus on developing your own product/service. Speaking from experience.)
 
 ### Where should I host databases and other stateful services?
 
@@ -106,4 +107,4 @@ Paraphrased and not exhaustive (see license text for exact terms), you are not a
 
 ---
 
-> Don't reinvent the ship
+> Shipmight – Don't reinvent the ship
