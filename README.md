@@ -12,7 +12,7 @@
 - **Integrate with the ecosystem.** Grafana Loki for log collection. Ingress-NGINX for ingress management. Cert-Manager for SSL issuance.
 - **Scale with your cluster.** No stateful database, Shipmight uses the in-cluster etcd as its data store.
 - **Update with a button.** Shipmight updates itself.
-- **And more.** See [documentation](https://shipmight.com/docs).
+- **And more.** See [documentation](https://shipmight.com/docs) and [live demo](https://demo.shipmight.com).
 
 ## Getting started
 
