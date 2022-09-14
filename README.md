@@ -1,12 +1,12 @@
-![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/readme-header-image.png)
-
-[Home](https://shipmight.com)     [Docs](https://shipmight.com/docs)     [GitHub](https://github.com/shipmight)     [Twitter](https://twitter.com/shipmight)
+![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/hero-image-faded.png)
 
 # PaaS in your cloud
 
 Shipmight is a Developer Platform which runs on any Kubernetes cluster.
 
 Install via Helm on your cloud of choice.
+
+[Home](https://shipmight.com)     [Docs](https://shipmight.com/docs)     [GitHub](https://github.com/shipmight)     [Twitter](https://twitter.com/shipmight)
 
 ## Features
 
