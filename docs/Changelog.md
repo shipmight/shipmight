@@ -2,7 +2,7 @@
 
 ## Unreleased
 
--
+- Internal charts: Clearer names and versions for when listed via `helm ls`
 
 ## 0.5.0 - 2022-09-06
 
