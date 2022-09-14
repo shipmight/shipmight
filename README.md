@@ -2,6 +2,12 @@
 
 [Home](https://shipmight.com)     [Docs](https://shipmight.com/docs)     [GitHub](https://github.com/shipmight)     [Twitter](https://twitter.com/shipmight)
 
+# PaaS in your cloud
+
+Shipmight is a Developer Platform which runs on any Kubernetes cluster.
+
+Install via Helm on your cloud of choice.
+
 ## Features
 
 - **Install Shipmight anywhere.** Install on any Kubernetes cluster via our official Helm chart.
