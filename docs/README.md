@@ -38,6 +38,7 @@
 
 ## Feature Guides
 
+- [App charts](App-charts.md)
 - [Applications](Applications.md)
 - [Domains and SSL](Domains-and-SSL.md)
 - [Environment variables](Environment-variables.md)
