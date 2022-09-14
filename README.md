@@ -1,4 +1,4 @@
-![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/hero-image-faded.png)
+![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/readme-header-image.png)
 
 # PaaS in your cloud
 
