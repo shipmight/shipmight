@@ -2,7 +2,14 @@
 
 ## Unreleased
 
-- Internal charts: Clearer names and versions for when listed via `helm ls` (#4)
+-
+
+## 0.5.1 - 2022-09-14
+
+### Fixed
+
+- Helm chart: Fixed `shipmight.ui.ingress.hosts` option
+- Internal charts: Clearer names and versions when listed via `helm ls` (#4)
 
 ## 0.5.0 - 2022-09-06
 
