@@ -1,7 +1,5 @@
 ![Shipmight header image](https://raw.githubusercontent.com/shipmight/shipmight/master/readme-header-image.png)
 
-<img src="screenshots/screenshots.login.png" alt="Screenshot of login screen" width="134" /> <img src="screenshots/screenshots.applications-list.png" alt="Screenshot of application list" width="134" /> <img src="screenshots/screenshots.network-page.png" alt="Screenshot of Network-page" width="134" /> <img src="screenshots/screenshots.trigger-job.png" alt="Screenshot of triggering a job" width="134" /> <img src="screenshots/screenshots.edit-file.png" alt="Screenshot of editing a file" width="134" /> <img src="screenshots/screenshots.manage-page.png" alt="Screenshot of Manage-page" width="134" /> <img src="screenshots/screenshots.browse-logs.png" alt="Screenshot of log browser" width="134" /> <img src="screenshots/screenshots.download-logs.png" alt="Screenshot of log download modal" width="134" />
-
 # PaaS in your cloud
 
 Shipmight is a Developer Platform which runs on any Kubernetes cluster.
@@ -9,6 +7,10 @@ Shipmight is a Developer Platform which runs on any Kubernetes cluster.
 Install via Helm on your cloud of choice.
 
 [Home](https://shipmight.com)     [Docs](https://shipmight.com/docs)     [GitHub](https://github.com/shipmight)     [Twitter](https://twitter.com/shipmight)
+
+## Screenshots
+
+<img src="screenshots/screenshots.login.png" alt="Screenshot of login screen" width="134" /> <img src="screenshots/screenshots.applications-list.png" alt="Screenshot of application list" width="134" /> <img src="screenshots/screenshots.network-page.png" alt="Screenshot of Network-page" width="134" /> <img src="screenshots/screenshots.trigger-job.png" alt="Screenshot of triggering a job" width="134" /> <img src="screenshots/screenshots.edit-file.png" alt="Screenshot of editing a file" width="134" /> <img src="screenshots/screenshots.manage-page.png" alt="Screenshot of Manage-page" width="134" /> <img src="screenshots/screenshots.browse-logs.png" alt="Screenshot of log browser" width="134" /> <img src="screenshots/screenshots.download-logs.png" alt="Screenshot of log download modal" width="134" />
 
 ## Features
 
