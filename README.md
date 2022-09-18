@@ -17,6 +17,7 @@ Install via Helm on your cloud of choice.
 - **Browse and download logs.** Browse live and historical logs in an embedded log viewer. Download as CSV/NDJSON.
 - **Integrate with the ecosystem.** Grafana Loki for log collection. Ingress-NGINX for ingress management. Cert-Manager for SSL issuance.
 - **Scale with your cluster.** No stateful database, Shipmight uses the in-cluster etcd as its data store.
+- **Reproduce your infra locally.** Run Shipmight on minikube or equivalent local cluster.
 - **Update with a button.** Shipmight updates itself.
 - **And more.** See [documentation](https://shipmight.com/docs) and [live demo](https://demo.shipmight.com).
 
@@ -68,7 +69,7 @@ The documentation is generated from Markdown files under the directory [`docs/`]
 
 ### Is Shipmight production-ready?
 
-Shipmight is basically an UI for Kubernetes. When Shipmight users deploy apps, they are created as regular Kubernetes workloads in the cluster. Therefore your workload deployments are as production-ready as your cluster is.
+Shipmight is basically a UI for Kubernetes. When Shipmight users deploy apps, they are created as regular Kubernetes workloads in the cluster. Therefore your workload deployments are as production-ready as your cluster is.
 
 Shipmight itself is in early development and lacks many features we have planned. At this early stage, we would recommend using Shipmight for hosting internal tools at your company.
 
