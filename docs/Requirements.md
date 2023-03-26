@@ -4,12 +4,12 @@
 
 See the table below for supported Kubernetes versions:
 
-| Kubernetes version | 1.21 | 1.22 | 1.23 | 1.24 |
-| ------------------ | ---- | ---- | ---- | ---- |
-| Shipmight 0.6      |      |      |      | \*   |
-| Shipmight 0.5      |      |      | \*   |      |
-| Shipmight 0.4      | \*   | \*   | \*   |      |
-| Shipmight 0.3      | \*   |      |      |      |
+| Kubernetes version | 1.21 | 1.22 | 1.23 | 1.24 | 1.25 | 1.26 |
+| ------------------ | ---- | ---- | ---- | ---- | ---- | ---- |
+| Shipmight 0.6      |      |      |      | \*   | \*   | \*   |
+| Shipmight 0.5      |      |      | \*   |      |      |      |
+| Shipmight 0.4      | \*   | \*   | \*   |      |      |      |
+| Shipmight 0.3      | \*   |      |      |      |      |      |
 
 ## Resource requirements
 

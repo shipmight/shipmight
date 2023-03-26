@@ -8,7 +8,7 @@
 
 ### Added
 
-- Kubernetes version: support for 1.24 (no changes; just an updated Helm chart)
+- Kubernetes version: support for 1.24, 1.25, 1.26 (no changes; just an updated Helm chart)
 
 ## 0.5.1 - 2022-09-14
 
