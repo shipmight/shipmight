@@ -4,6 +4,12 @@
 
 -
 
+## 0.6.0 - 2023-03-26
+
+### Added
+
+- Kubernetes version: support for 1.24 (no changes; just an updated Helm chart)
+
 ## 0.5.1 - 2022-09-14
 
 ### Fixed
